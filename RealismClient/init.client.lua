@@ -4,7 +4,6 @@
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- Dependencies
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
---!strict
 
 local CollectionService = game:GetService("CollectionService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -275,7 +274,7 @@ local function updateLookAngles()
 		end
 
 		local animator = humanoid:FindFirstChildOfClass("Animator")
-		local numTracks = animator and #animator:GetPlayingAnimationTracks() or 0
+		local numTracks = #(animator or humanoid):GetPlayingAnimationTracks()
 
 		local pitchState = rotator.Pitch
 		stepValue(pitchState, stepDelta)
