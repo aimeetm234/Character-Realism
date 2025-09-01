@@ -269,7 +269,7 @@ local function onRotationTypeChanged()
 				end
 
 				if subject.Sit and subject.SeatPart then
-					local root = rootPart:GetRootPart()
+					local root = rootPart.AssemblyRootPart
 
 					if root ~= rootPart then
 						canRotate = false
