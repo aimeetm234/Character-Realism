@@ -432,7 +432,7 @@ function module.MountMaterialSounds(humanoid: Instance)
 		end
 
 		if running then
-			running.SoundId = `rbxassetid://{soundId or 0}`
+			running.SoundId = soundId and `rbxassetid://{soundId}` or ``
 		end
 	end
 
