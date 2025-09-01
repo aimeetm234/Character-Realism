@@ -263,13 +263,18 @@ local function updateLookAngles()
 		local stepDelta = now - lastStep
 
 		local humanoid = character:FindFirstChildOfClass("Humanoid")
-		local rootPart = humanoid and humanoid.RootPart
+		
+		if not humanoid then
+		    continue
+		end
+		
+		local rootPart = humanoid.RootPart
 
 		if not rootPart then
 			continue
 		end
 
-		local animator = humanoid and humanoid:FindFirstChildOfClass("Animator")
+		local animator = humanoid:FindFirstChildOfClass("Animator")
 		local numTracks = animator and #animator:GetPlayingAnimationTracks() or 0
 
 		local pitchState = rotator.Pitch
