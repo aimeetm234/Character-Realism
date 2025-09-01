@@ -114,7 +114,7 @@ local function awaitValue<T, Args...>(object: any, prop: string, andThen: (T, Ar
 				return
 			end
 
-			RunService.Heartbeat:Wait()
+			RunService.PostSimulation:Wait()
 		end
 
 		andThen(object[prop], ...)
@@ -461,7 +461,7 @@ function module.MountMaterialSounds(humanoid: Instance)
 				running.PlaybackSpeed = 1 / ((scale * 15) / speed)
 			end
 
-			RunService.Heartbeat:Wait()
+			RunService.PostSimulation:Wait()
 		end
 	end
 
