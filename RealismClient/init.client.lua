@@ -211,9 +211,9 @@ end
 
 -- Called to update all of the look-angles being tracked
 -- on the client, as well as our own client look-angles.
--- This is called during every RunService Heartbeat.
+-- This is always called prior to the physics simulation.
 
-local function updateLookAngles(dt: number)
+local function updateLookAngles()
 	-- Update our own look-angles with no latency
 	local pitch, yaw = computeLookAngle()
 	onLookReceive(player, pitch, yaw)
@@ -508,7 +508,7 @@ function module.Start()
 	-- TODO: Tie these to a maid!
 	task.spawn(FirstPerson.Start)
 	humanoidAdded:Connect(onHumanoidAdded)
-	RunService.Stepped:Connect(updateLookAngles)
+	RunService.PreSimulation:Connect(updateLookAngles)
 	setLookAngles.OnClientEvent:Connect(onLookReceive)
 end
 
