@@ -318,20 +318,42 @@ function FirstPerson.Start()
 	task.spawn(function()
 		local requireUnsafe = require :: any
 		local playerScripts = player:WaitForChild("PlayerScripts")
-		local playerModule = playerScripts:WaitForChild("PlayerModule")
-
-		local baseCamera = playerModule:FindFirstChild("BaseCamera", true)
-		local transparency = playerModule:FindFirstChild("TransparencyController", true)
+		local playerModule = playerScripts:FindFirstChild("PlayerModule")
+		local baseCamera, transparency
+		if playerModule then
+			baseCamera = playerModule:FindFirstChild("BaseCamera", true)
+			transparency = playerModule:FindFirstChild("TransparencyController", true)
+		else
+			playerModule = playerScripts:WaitForChild("CameraScript")
+			baseCamera = playerModule:WaitForChild("RootCamera")
+			transparency = playerModule:WaitForChild("TransparencyController")
+		end
 
 		if baseCamera and baseCamera:IsA("ModuleScript") then
-			local module = requireUnsafe(baseCamera)
+			local module
+			do
+				local required = requireUnsafe(baseCamera)
+				if type(required) == "function" then
+					module = required()
+				else
+					module = required
+				end
+			end
 			task.spawn(mountBaseCamera, module)
 		else
 			warn("Start - Could not find BaseCamera module!")
 		end
 
 		if transparency and transparency:IsA("ModuleScript") then
-			local module = requireUnsafe(transparency)
+			local module
+			do
+				local required = requireUnsafe(transparency)
+				if type(required) == "function" then
+					module = required()
+				else
+					module = required
+				end
+			end
 			task.spawn(mountTransparency, module)
 		else
 			warn("Start - Cound not find TransparencyController module!")
