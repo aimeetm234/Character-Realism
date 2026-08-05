@@ -47,7 +47,7 @@ type ITransparencyController = {
 
 	Update: (...any) -> (),
 	BaseUpdate: (...any) -> (),
-	SetSubject: (self: any, subject: Instance) -> (),
+	SetSubject: (self: any, subject: Instance?) -> (),
 
 	SetupTransparency: (self: any, character: Model, ...any) -> (),
 	BaseSetupTransparency: (self: any, character: Model, ...any) -> (),
@@ -118,7 +118,7 @@ function FirstPerson.IsValidPartToModify(_self: any, part: Instance?)
 				end
 			end
 
-			for _, child in pairs(part:GetChildren()) do
+			for _, child in pairs(part and part:GetChildren() or {}) do
 				if child:IsA("Attachment") then
 					if HEAD_ATTACHMENTS[child.Name] then
 						return true
@@ -316,10 +316,14 @@ function FirstPerson.Start()
 	FirstPerson.Started = true
 
 	task.spawn(function()
+	    local StarterPlayer = game:GetService("StarterPlayer")
 		local requireUnsafe = require :: any
 		local playerScripts = player:WaitForChild("PlayerScripts")
-		local playerModule = playerScripts:FindFirstChild("PlayerModule")
+		local playerModule = StarterPlayer:FindFirstChild("PlayerModule")
 		local baseCamera, transparency
+		if not playerModule then
+			playerModule = playerScripts:FindFirstChild("PlayerModule")
+		end
 		if playerModule then
 			baseCamera = playerModule:FindFirstChild("BaseCamera", true)
 			transparency = playerModule:FindFirstChild("TransparencyController", true)
