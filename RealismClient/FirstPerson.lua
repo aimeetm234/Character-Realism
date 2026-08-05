@@ -319,10 +319,10 @@ function FirstPerson.Start()
 	    local StarterPlayer = game:GetService("StarterPlayer")
 		local requireUnsafe = require :: any
 		local playerScripts = player:WaitForChild("PlayerScripts")
-		local playerModule = StarterPlayer:FindFirstChild("PlayerModule")
+		local playerModule = StarterPlayer:WaitForChild("PlayerModule", 1)
 		local baseCamera, transparency
 		if not playerModule then
-			playerModule = playerScripts:FindFirstChild("PlayerModule")
+			playerModule = playerScripts:WaitForChild("PlayerModule")
 		end
 		if playerModule then
 			baseCamera = playerModule:FindFirstChild("BaseCamera", true)
